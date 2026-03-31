@@ -10,7 +10,7 @@
         <h1>Carrito de compras</h1>
 
         {% if carrito %}
-            <ul>
+            <ul class="lista-carrito">
                 {% for producto in carrito %}
                     <li>{{ producto.nombre }} - S/ {{ "%.2f"|format(producto.precio) }}</li>
                 {% endfor %}
@@ -19,14 +19,14 @@
             <h3>Total: S/ {{ "%.2f"|format(total) }}</h3>
 
             <a href="{{ url_for('enviar_whatsapp') }}">Enviar pedido por WhatsApp</a>
-            <br><br>
             <a href="{{ url_for('vaciar_carrito') }}">Vaciar carrito</a>
         {% else %}
             <p>Tu carrito está vacío.</p>
         {% endif %}
 
-        <br>
-        <a href="{{ url_for('inicio') }}">Volver a la tienda</a>
+        <p>
+            <a href="{{ url_for('tienda') }}">Seguir comprando</a>
+        </p>
     </div>
 </body>
 </html>

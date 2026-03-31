@@ -17,6 +17,29 @@ body {
     margin-bottom: 20px;
 }
 
+.acciones-superiores {
+    margin: 20px 0;
+}
+
+.acciones-superiores a,
+.producto a,
+button,
+a {
+    display: inline-block;
+    margin: 8px;
+    padding: 10px 16px;
+    background: #d4a017;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-eliminar {
+    background: #c0392b;
+}
+
 .productos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -39,20 +62,6 @@ body {
     border-radius: 10px;
 }
 
-.producto a,
-button,
-a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 16px;
-    background: #d4a017;
-    color: white;
-    text-decoration: none;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
 .form-admin {
     display: flex;
     flex-direction: column;
@@ -70,4 +79,9 @@ a {
 .mensaje-exito {
     color: green;
     font-weight: bold;
+}
+
+.lista-carrito {
+    list-style: none;
+    padding: 0;
 }

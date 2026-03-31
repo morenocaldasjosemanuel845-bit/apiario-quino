@@ -8,7 +8,11 @@
 <body>
     <div class="contenedor">
         <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo Apiario Quino" class="logo">
-        <h1>Bienvenido a Apiario Quino</h1>
+        <h1>Tienda Apiario Quino</h1>
+
+        <div class="acciones-superiores">
+            <a href="{{ url_for('ver_carrito') }}">Ver carrito</a>
+        </div>
 
         <div class="productos">
             {% for producto in productos %}
@@ -22,11 +26,6 @@
                 </div>
             {% endfor %}
         </div>
-
-        <p>
-            <a href="{{ url_for('ver_carrito') }}">Ver carrito</a> |
-            <a href="{{ url_for('admin_productos') }}">Administrar productos</a>
-        </p>
     </div>
 </body>
 </html>
