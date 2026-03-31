@@ -2,12 +2,16 @@ import os
 import sqlite3
 from uuid import uuid4
 from urllib.parse import quote
+from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
 app = Flask(__name__)
 app.secret_key = "apiario_quino_secret_key"
 
 NUMERO_WHATSAPP = "51940849095"
+
+USUARIO_ADMIN = "JHENNYFER050607jm20"
+CLAVE_ADMIN = "25262"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_DIR = os.path.join(BASE_DIR, "database")
@@ -64,6 +68,16 @@ def obtener_producto_por_id(producto_id):
     return producto
 
 
+def login_requerido(func):
+    @wraps(func)
+    def envoltura(*args, **kwargs):
+        if not session.get("admin_logueado"):
+            flash("Debes iniciar sesión para entrar al panel de control.")
+            return redirect(url_for("login"))
+        return func(*args, **kwargs)
+    return envoltura
+
+
 @app.route("/")
 def inicio():
     return redirect(url_for("tienda_virtual"))
@@ -75,13 +89,37 @@ def tienda_virtual():
     return render_template("tienda.html", productos=productos)
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        usuario = request.form["usuario"].strip()
+        clave = request.form["clave"].strip()
+
+        if usuario == USUARIO_ADMIN and clave == CLAVE_ADMIN:
+            session["admin_logueado"] = True
+            return redirect(url_for("panel_de_control"))
+        else:
+            flash("Usuario o contraseña incorrectos.")
+
+    return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    session.pop("admin_logueado", None)
+    flash("Sesión cerrada correctamente.")
+    return redirect(url_for("login"))
+
+
 @app.route("/panel-de-control")
+@login_requerido
 def panel_de_control():
     productos = obtener_productos()
     return render_template("admin.html", productos=productos)
 
 
 @app.route("/panel-de-control/agregar", methods=["GET", "POST"])
+@login_requerido
 def agregar_producto():
     if request.method == "POST":
         nombre = request.form["nombre"].strip()
@@ -116,6 +154,7 @@ def agregar_producto():
 
 
 @app.route("/panel-de-control/eliminar/<int:id>")
+@login_requerido
 def eliminar_producto(id):
     producto = obtener_producto_por_id(id)
 
