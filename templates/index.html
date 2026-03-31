@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apiario Quino</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo Apiario Quino" class="logo">
+        <h1>Apiario Quino</h1>
+        <p>Miel 100% natural</p>
+    </header>
+
+    <main>
+        <h2>Productos</h2>
+        <div class="productos">
+            {% for producto in productos %}
+            <div class="card">
+                <h3>{{ producto.nombre }}</h3>
+                <p>Precio: S/ {{ "%.2f"|format(producto.precio) }}</p>
+                <a href="{{ url_for('comprar', id=producto.id) }}">
+                    <button>Agregar al carrito</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{{ url_for('ver_carrito') }}">
+                <button>Ver carrito</button>
+            </a>
+        </div>
+    </main>
+</body>
+</html>

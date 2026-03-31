@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main>
+        <h1>Reporte de Ventas</h1>
+
+        <h2>Resumen por día</h2>
+        {% if resumen %}
+            <table border="1" cellpadding="10" cellspacing="0">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Cantidad de ventas</th>
+                    <th>Total vendido</th>
+                </tr>
+                {% for fila in resumen %}
+                <tr>
+                    <td>{{ fila.dia }}</td>
+                    <td>{{ fila.cantidad_ventas }}</td>
+                    <td>S/ {{ fila.total_dia }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No hay ventas registradas.</p>
+        {% endif %}
+
+        <h2 style="margin-top: 30px;">Detalle de ventas</h2>
+        {% if ventas %}
+            <table border="1" cellpadding="10" cellspacing="0">
+                <tr>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Fecha y hora</th>
+                </tr>
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta.id }}</td>
+                    <td>{{ venta.producto_nombre }}</td>
+                    <td>S/ {{ venta.precio }}</td>
+                    <td>{{ venta.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        <br><br>
+        <a href="{{ url_for('inicio') }}">
+            <button>Volver a la tienda</button>
+        </a>
+    </main>
+</body>
+</html>
