@@ -65,18 +65,23 @@ def obtener_producto_por_id(producto_id):
 
 
 @app.route("/")
-def tienda():
+def inicio():
+    return redirect(url_for("tienda_virtual"))
+
+
+@app.route("/tienda-virtual")
+def tienda_virtual():
     productos = obtener_productos()
     return render_template("tienda.html", productos=productos)
 
 
-@app.route("/admin")
-def admin():
+@app.route("/panel-de-control")
+def panel_de_control():
     productos = obtener_productos()
     return render_template("admin.html", productos=productos)
 
 
-@app.route("/admin/agregar", methods=["GET", "POST"])
+@app.route("/panel-de-control/agregar", methods=["GET", "POST"])
 def agregar_producto():
     if request.method == "POST":
         nombre = request.form["nombre"].strip()
@@ -105,12 +110,12 @@ def agregar_producto():
         conexion.close()
 
         flash("Producto agregado correctamente.")
-        return redirect(url_for("admin"))
+        return redirect(url_for("panel_de_control"))
 
     return render_template("agregar_producto.html")
 
 
-@app.route("/admin/eliminar/<int:id>")
+@app.route("/panel-de-control/eliminar/<int:id>")
 def eliminar_producto(id):
     producto = obtener_producto_por_id(id)
 
@@ -128,7 +133,7 @@ def eliminar_producto(id):
 
         flash("Producto eliminado correctamente.")
 
-    return redirect(url_for("admin"))
+    return redirect(url_for("panel_de_control"))
 
 
 @app.route("/comprar/<int:id>")
@@ -136,7 +141,7 @@ def comprar(id):
     producto = obtener_producto_por_id(id)
 
     if not producto:
-        return redirect(url_for("tienda"))
+        return redirect(url_for("tienda_virtual"))
 
     carrito = session.get("carrito", [])
 

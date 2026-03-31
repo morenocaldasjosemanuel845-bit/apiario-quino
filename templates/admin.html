@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Administrar tienda - Apiario Quino</title>
+    <title>Panel de control - Apiario Quino</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="contenedor">
         <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo Apiario Quino" class="logo">
-        <h1>Panel del dueño</h1>
+        <h1>Panel de control - Apiario Quino</h1>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -20,20 +20,24 @@
 
         <div class="acciones-superiores">
             <a href="{{ url_for('agregar_producto') }}">Agregar producto</a>
-            <a href="{{ url_for('tienda') }}">Ver tienda pública</a>
+            <a href="{{ url_for('tienda_virtual') }}">Ver tienda virtual</a>
         </div>
 
         <div class="productos">
-            {% for producto in productos %}
-                <div class="producto">
-                    {% if producto.imagen %}
-                        <img src="{{ url_for('static', filename='uploads/' + producto.imagen) }}" alt="{{ producto.nombre }}">
-                    {% endif %}
-                    <h2>{{ producto.nombre }}</h2>
-                    <p>S/ {{ "%.2f"|format(producto.precio) }}</p>
-                    <a href="{{ url_for('eliminar_producto', id=producto.id) }}" class="btn-eliminar">Eliminar</a>
-                </div>
-            {% endfor %}
+            {% if productos %}
+                {% for producto in productos %}
+                    <div class="producto">
+                        {% if producto.imagen %}
+                            <img src="{{ url_for('static', filename='uploads/' + producto.imagen) }}" alt="{{ producto.nombre }}">
+                        {% endif %}
+                        <h2>{{ producto.nombre }}</h2>
+                        <p>S/ {{ "%.2f"|format(producto.precio) }}</p>
+                        <a href="{{ url_for('eliminar_producto', id=producto.id) }}" class="btn-eliminar">Eliminar</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="mensaje-vacio">No hay productos registrados todavía.</p>
+            {% endif %}
         </div>
     </div>
 </body>
