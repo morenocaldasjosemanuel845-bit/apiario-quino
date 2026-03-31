@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar productos - Apiario Quino</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Panel de productos</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="mensaje-exito">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data" class="form-admin">
+            <input type="text" name="nombre" placeholder="Nombre del producto" required>
+            <input type="number" step="0.01" name="precio" placeholder="Precio" required>
+            <input type="file" name="imagen" accept="image/*" required>
+            <button type="submit">Agregar producto</button>
+        </form>
+
+        <h2>Productos registrados</h2>
+
+        <div class="productos">
+            {% for producto in productos %}
+                <div class="producto">
+                    {% if producto.imagen %}
+                        <img src="{{ url_for('static', filename='uploads/' + producto.imagen) }}" alt="{{ producto.nombre }}">
+                    {% endif %}
+                    <h3>{{ producto.nombre }}</h3>
+                    <p>S/ {{ "%.2f"|format(producto.precio) }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <p><a href="{{ url_for('inicio') }}">Volver a la tienda</a></p>
+    </div>
+</body>
+</html>
