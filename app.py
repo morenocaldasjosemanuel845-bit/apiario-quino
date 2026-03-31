@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 app = Flask(__name__)
 app.secret_key = "apiario_quino_secret_key"
 
-NUMERO_WHATSAPP = "51929204188"
+NUMERO_WHATSAPP = "51940849095"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_DIR = os.path.join(BASE_DIR, "database")
