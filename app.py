@@ -13,7 +13,7 @@ productos = [
 
 carrito = []
 
-NUMERO_WHATSAPP = "51940849095"
+NUMERO_WHATSAPP = "51929204188"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_DIR = os.path.join(BASE_DIR, "database")
