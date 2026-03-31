@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from urllib.parse import quote
 from flask import Flask, render_template, redirect, url_for
 
 app = Flask(__name__)
@@ -12,7 +13,7 @@ productos = [
 
 carrito = []
 
-NUMERO_WHATSAPP = "51940849095"  # Cambia por tu número real
+NUMERO_WHATSAPP = "51940849095"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_DIR = os.path.join(BASE_DIR, "database")
@@ -41,6 +42,9 @@ def crear_tablas():
 
     conexion.commit()
     conexion.close()
+
+
+crear_tablas()
 
 
 @app.route("/")
@@ -83,13 +87,10 @@ def enviar_whatsapp():
     mensaje += f"\nTotal: S/ {total:.2f}"
     mensaje += "\n\nPor favor, deseo confirmar mi pedido."
 
-    from urllib.parse import quote
     mensaje_codificado = quote(mensaje)
-
     url_whatsapp = f"https://wa.me/{NUMERO_WHATSAPP}?text={mensaje_codificado}"
     return redirect(url_whatsapp)
 
 
 if __name__ == "__main__":
-    crear_tablas()
     app.run(debug=True)
